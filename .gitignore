@@ -107,4 +107,4 @@ dist
 Dockerfile
 
 #fly
-.toml
+fly.toml
