@@ -1,11 +1,29 @@
 import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
+const express_graphql = require('express-graphql').graphqlHTTP;
+const { buildSchema } = require('graphql');
 const { Pool } = require("pg");
 
 dotenv.config();
 
 const app: Express = express();
 const port = process.env.PORT;
+// GraphQL schema
+const schema = buildSchema(`
+    type Query {
+        message: String
+    }
+`);
+// Root resolver
+const root = {
+    message: () => 'Hello World!'
+};
+//
+app.use('/graphql', express_graphql({
+    schema: schema,
+    rootValue: root,
+    graphiql: true
+}));
 
 const credentials_local = {
     user: "postgres",
@@ -15,8 +33,7 @@ const credentials_local = {
     port: 5432,
 };
   
-  // Connect with a connection pool.
-  
+// Connect with a connection pool.
 async function poolDemo() {
     const pool = new Pool(credentials_local);
     const now = await pool.query(`
