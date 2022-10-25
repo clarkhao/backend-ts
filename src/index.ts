@@ -1,29 +1,15 @@
 import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
-const express_graphql = require('express-graphql').graphqlHTTP;
-const { buildSchema } = require('graphql');
-const { Pool } = require("pg");
-
+import {Pool} from 'pg';
+import {routerGraphQL} from './middleware';
+import {githubOauth} from './route';
 dotenv.config();
 
 const app: Express = express();
 const port = process.env.PORT;
-// GraphQL schema
-const schema = buildSchema(`
-    type Query {
-        message: String
-    }
-`);
-// Root resolver
-const root = {
-    message: () => 'Hello World!'
-};
-//
-app.use('/graphql', express_graphql({
-    schema: schema,
-    rootValue: root,
-    graphiql: true
-}));
+
+app.use(routerGraphQL);
+app.use(githubOauth);
 
 const credentials_local = {
     user: "postgres",

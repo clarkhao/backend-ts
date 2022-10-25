@@ -1,0 +1,1 @@
+export {routerGraphQL} from "./graphql";
