@@ -1,8 +1,16 @@
 import { RequestHandler } from "express";
+import {getCodeFromGithub} from '../../service'
 
-const readCode: RequestHandler = async (req, res, next) => {
-    console.log(req);
-    res.redirect('http://192.168.3.55:3000')
+const githubOauthCallback: RequestHandler = async (req, res, next) => {
+    getCodeFromGithub(req.query as Record<string,string>)
+    .then( () => {
+        console.log('middle')
+    })
+    .catch((err:Error) => {
+        console.log(`err: ${err}`);
+        res.redirect(process.env.LOGIN_PAGE || '');
+        next(err);
+    })
 }
 
-export {readCode};
+export {githubOauthCallback};
