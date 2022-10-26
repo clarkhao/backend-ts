@@ -1,1 +1,1 @@
-export {readCode} from './oauth/github';
+export { githubOauthCallback } from './oauth/github';

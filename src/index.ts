@@ -1,7 +1,7 @@
 import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import {Pool} from 'pg';
-import {routerGraphQL} from './middleware';
+import {routerGraphQL, errorHandler} from './middleware';
 import {githubOauth} from './route';
 dotenv.config();
 
@@ -33,6 +33,7 @@ app.get('/', async (req: Request, res: Response) => {
     const poolResult = await poolDemo();
     res.send(JSON.stringify(poolResult.rows));
 });
+app.use(errorHandler);
 
 app.listen(port, () => {
     console.log(`⚡️[server]: Server is running at https://localhost:${port}`);
