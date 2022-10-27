@@ -1,1 +1,5 @@
-export {getCodeFromGithub} from './oauth/githubOauth';
+export {
+    getCodeFromGithub,
+    getTokenFromGithub,
+    getUserInfoWithToken,
+} from './oauth/githubOauth';

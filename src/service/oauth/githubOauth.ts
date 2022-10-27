@@ -1,4 +1,4 @@
-import { resolve } from "path";
+import {GithubAPI} from '../../utils';
 
 //get code from github after customer logged in github with oauth
 const getCodeFromGithub = (query: Record<string,string>) => {
@@ -13,7 +13,25 @@ const getCodeFromGithub = (query: Record<string,string>) => {
 }
 //get github token with async http request.
 const getTokenFromGithub = (code: string) => {
-    
+    const githubAPI = new GithubAPI(code);
+    return githubAPI.fetchTokenFromGithub().then(token => {
+        const tokenOrErr = new URLSearchParams(token);
+        if(tokenOrErr.get('access_token'))
+            return Promise.resolve(tokenOrErr.get('access_token') as string);
+        else
+            return Promise.reject(tokenOrErr.get('error') as string);
+    })
+}
+//get github user info with token
+const getUserInfoWithToken = (token: string) => {
+    const githubAPI = new GithubAPI();
+    return githubAPI.fetchUserInfoWithToken(token).then(info => {
+        const userInfo = new URLSearchParams(info);
+        if(userInfo.get('login'))
+            return Promise.resolve(info);
+        else
+            return Promise.reject('failed to fetch user info from github with token');
+    })
 }
 
-export { getCodeFromGithub };
+export { getCodeFromGithub,getTokenFromGithub,getUserInfoWithToken };

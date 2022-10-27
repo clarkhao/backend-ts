@@ -36,5 +36,5 @@ app.get('/', async (req: Request, res: Response) => {
 app.use(errorHandler);
 
 app.listen(port, () => {
-    console.log(`⚡️[server]: Server is running at https://localhost:${port}`);
+    console.log(`⚡️[server]: Server is running at https://192.168.3.55:${port}`);
 });
