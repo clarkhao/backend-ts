@@ -1,0 +1,1 @@
+export {GithubAPI} from './request/githubRequest';
