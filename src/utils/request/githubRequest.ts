@@ -1,17 +1,18 @@
 import { AbstractAPI } from "./abstractAPI";
+const config = require('config');
 
 class GithubAPI extends AbstractAPI {
     private client_id: string;
     private client_secret: string;
     private code: string;
     public constructor(code?:string) {
-        super('https://github.com');
-        this.client_id = process.env.GITHUB_CLIENT_ID || '';
-        this.client_secret = process.env.GITHUB_CLIENT_SECRET || '';
+        super(config.get('github.home'));
+        this.client_id = process.env[config.get("github.client.id")] || '';
+        this.client_secret = process.env[config.get("github.client.secret")] || '';
         this.code = code || '';
     }
     public fetchTokenFromGithub() {
-        return this.http.post(this.baseURL.concat('/login/oauth/access_token'), 
+        return this.http.post(this.baseURL.concat(config.get('github.token_path')), 
             this.paramsSerialized({
                 client_id: this.client_id,
                 client_secret: this.client_secret,
@@ -20,7 +21,7 @@ class GithubAPI extends AbstractAPI {
             .catch(this.handleError.bind(this));
     }
     public fetchUserInfoWithToken(token: string) {
-        return this.http.get('https://api.github.com/user',{
+        return this.http.get(config.get('github.user_api_uri'),{
             headers: {
               Authorization: `Bearer ${token}`
             },
