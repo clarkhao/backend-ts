@@ -1,0 +1,18 @@
+{
+    "server": {
+        "host": "http://192.168.3.55",
+        "port": "PORT"
+    },
+    "github": {
+        "home": "https://github.com",
+        "token_path": "/login/oauth/access_token",
+        "user_api_uri": "https://api.github.com/user",
+        "client": {
+            "id": "GITHUB_CLIENT_ID",
+            "secret": "GITHUB_CLIENT_SECRET"
+        }
+    },
+    "frontend": {
+        "home_page": "http://192.168.3.55:3000"
+    }
+}
