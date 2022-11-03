@@ -8,25 +8,31 @@ type Credentials = {
     password: string,
     port: number
 }
-
 class PGConnect {
     private credentials: Credentials;
     private pool: Pool
     public constructor(db: string) {
         this.credentials = {
-            user: config.get('db.user'),
+            user: process.env[config.get('db.db_graph.user')] || '',
             host: process.env[config.get('db.host')] || '',
             database: db,
-            password: process.env[config.get('db.password')] || '',
+            password: process.env[config.get('db.db_graph.pwd')] || '',
             port: config.get('db.port')
         }
         this.pool = new Pool(this.credentials);
     }
-    public dbConnect(query: string) {
+    public dbConnect(text: string, values?: unknown[]) {
         return this.pool.connect().then(client => {
-            return client.query(query).then(res => {
+            return client.query(text, values).then(res => {
                 client.release();
-                return res.rows as string[];
+                if(res.command === 'insert' || 'update') {
+                    if(res.rowCount > 0)
+                        return true;
+                    else 
+                        return false;
+                } else {
+                    return res.rows as string[];
+                }            
             }).catch(err => {
                 client.release();
                 throw new Error(err.stack);

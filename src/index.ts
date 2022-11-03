@@ -12,7 +12,7 @@ app.use(routerGraphQL);
 app.use(githubOauth);
 
 app.get('/', async (req: Request, res: Response) => {
-    res.send('Hello');
+    res.json({env:process.env.NODE_ENV,host:config.get('server.host')})
 });
 app.use(errorHandler);
 

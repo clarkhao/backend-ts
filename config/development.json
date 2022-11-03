@@ -13,8 +13,8 @@
         "port": 5432,
         "db_graph": {
             "name": "DB_GRAPH",
-            "user": "DB_GRAPH_USER",
-            "pwd": "DB_GRAPH_PWD",
+            "user": "DB_ADMIN",
+            "pwd": "DB_PWD",
             "schema_user": {
                 "name": "SCHEMA_USER",
                 "table_oauth": {

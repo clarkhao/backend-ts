@@ -8,11 +8,13 @@
     },
     "db": {
         "host": "DB_HOST",
-        "user": "postgres",
+        "user": "DB_ADMIN",
         "port": 5432,
         "password": "DB_PWD",
         "db_graph": {
             "name": "DB_GRAPH",
+            "user": "DB_GRAPH_USER",
+            "pwd": "DB_GRAPH_PWD",
             "schema_user": {
                 "name": "SCHEMA_USER",
                 "table_oauth": {
