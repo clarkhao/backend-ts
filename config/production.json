@@ -1,11 +1,24 @@
 {
+    "server": {
+        "host": "http://post-graph-v0.fly.dev",
+        "port": "PORT"
+    },
+    "frontend": {
+        "home_page": "http://192.168.3.55:3000"
+    },
     "db": {
         "host": "DB_HOST",
         "user": "postgres",
         "port": 5432,
         "password": "DB_PWD",
-        "oauth_user_db": {
-            "name": "OAUTH_DB"
+        "db_graph": {
+            "name": "DB_GRAPH",
+            "schema_user": {
+                "name": "SCHEMA_USER",
+                "table_oauth": {
+                    "name": "TABLE_OAUTH"
+                }
+            }
         }
     }
 }

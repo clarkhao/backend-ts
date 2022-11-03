@@ -3,10 +3,9 @@ import {getCodeFromGithub,
         getTokenFromGithub,
         getUserInfoWithToken,
         saveInfoInPG} from '../../service';
-const config = require('config');
 
 const githubOauthCallback: RequestHandler = async (req, res, next) => {
-    getCodeFromGithub(req.query as Record<string,string>)
+    const result = await getCodeFromGithub(req.query as Record<string,string>)
     .then( (code) => {
         console.log(`code: ${code}`);
         return getTokenFromGithub(code);
@@ -16,13 +15,17 @@ const githubOauthCallback: RequestHandler = async (req, res, next) => {
     }).then(info => {
         return saveInfoInPG(info);
     }).then(query => {
-        console.log(query);
+        console.log(`query: ${query}`);
+        return query;
     })
     .catch((err:Error) => {
         console.log(`err: ${err}`);
         next(err);
     })
-    res.redirect(config.get('frontend.home_page'));
+    if(result)
+        res.sendStatus(200);
+    else
+        res.sendStatus(400);
 }
 
 export {githubOauthCallback};

@@ -6,7 +6,7 @@
   "scripts": {
     "build": "npx tsc",
     "start": "export NODE_ENV=production&&node dist/index.js",
-    "dev": "concurrently \"npx tsc --watch\" \"export NODE_ENV=development&&nodemon -q dist/index.js\"",
+    "dev": "concurrently \"npx tsc --watch\" \"export NODE_ENV=development && nodemon dist/index.js\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/clarkhao/backend-ts#readme",
   "dependencies": {
+    "@prisma/client": "^4.5.0",
     "axios": "^1.1.3",
     "body-parser": "^1.20.0",
     "config": "^3.3.8",
@@ -40,6 +41,7 @@
     "@types/pg": "^8.6.5",
     "concurrently": "^7.4.0",
     "nodemon": "^2.0.20",
+    "prisma": "^4.5.0",
     "typescript": "^4.8.4"
   }
 }

@@ -6,7 +6,6 @@ dotenv.config();
 const config = require('config');
 
 const app: Express = express();
-console.log(config.get('server.port'))
 const port = process.env[config.get('server.port')];
 
 app.use(routerGraphQL);
