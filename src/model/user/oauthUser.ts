@@ -1,27 +1,27 @@
-import {User} from './userType';
-import {PGConnect} from '../../utils';
+import { GithubUser,PrismaClient } from '@prisma/client';
 const config = require('config');
 
-class OauthUser implements User {
-    private name: string;
-    private user_id: string;
-    private github_repos_num: number;
-    private pool: PGConnect; 
-    public constructor(source:string,name:string,id:number,num?:number) {
-        this.name = source.concat(name);
-        this.user_id = source.concat(id.toString());
-        this.github_repos_num = num || 0;
-        this.pool = new PGConnect(process.env[config.get('db.oauth_user_db.name')] || '');
+class OauthUser implements GithubUser {
+    id: number;
+    name: string;
+    githubId: number;
+    githubRepos: number;
+    prisma: PrismaClient;
+    public constructor(name:string,id:number,num?:number) {
+        this.id = 0;
+        this.name = name;
+        this.githubId = id;
+        this.githubRepos = num || 0;
+        this.prisma = new PrismaClient();
     }
-    public checkUser(name: string) {
-        return this.pool.dbConnect(`
-        select name from some where name=${this.name};
-        `).then(res => {
-            return res.length > 0;
-        }).catch(err => {
-            throw new Error(err);
-        })
-    };
+    public createUser(): Promise<number> {
+        return this.prisma.$executeRaw`
+        insert into github_user (name,github_id,github_repos)
+        values (${this.name},${this.githubId},${this.githubRepos})
+        on conflict (name)
+        do
+            update set github_repos=${this.githubRepos};`
+    }
 }
 
 export {OauthUser};

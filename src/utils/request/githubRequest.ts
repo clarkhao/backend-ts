@@ -17,7 +17,8 @@ class GithubAPI extends AbstractAPI {
                 client_id: this.client_id,
                 client_secret: this.client_secret,
                 code: this.code
-            })).then(this.handleResponse.bind(this))
+            }))
+            .then(this.handleResponse.bind(this))
             .catch(this.handleError.bind(this));
     }
     public fetchUserInfoWithToken(token: string) {
@@ -25,7 +26,8 @@ class GithubAPI extends AbstractAPI {
             headers: {
               Authorization: `Bearer ${token}`
             },
-          }).then(this.handleResponse.bind(this))
+          })
+          .then(this.handleResponse.bind(this))
           .catch(this.handleError.bind(this));
     }
 }
