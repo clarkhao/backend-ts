@@ -16,18 +16,18 @@ const getCodeFromGithub = (query: Record<string,string>) => {
 const getTokenFromGithub = (code: string) => {
     const githubAPI = new GithubAPI(code);
     return githubAPI.fetchTokenFromGithub().then(token => {
-        const tokenOrErr = new URLSearchParams(token);
-        if(tokenOrErr.get('access_token'))
-            return Promise.resolve(tokenOrErr.get('access_token') as string);
+        console.log(token.status);
+        if(token.status === 200)
+            return Promise.resolve(token.data.get('access_token') as string);
         else
-            return Promise.reject(new Error(`${tokenOrErr.get('error')}`));
+            return Promise.reject(new Error(`${token.data.get('error')}`));
     })
 }
 //get github user info with token
 const getUserInfoWithToken = (token: string) => {
     const githubAPI = new GithubAPI();
     return githubAPI.fetchUserInfoWithToken(token).then(info => {
-        const userInfo = new URLSearchParams(info);
+        const userInfo = new URLSearchParams(info.data);
         if(userInfo.get('login'))
             return Promise.resolve({id:0,name:userInfo.get('login') || '',githubId: parseInt(userInfo.get('id') || ''), githubRepos: parseInt(userInfo.get('public_repos') || '')} as GithubUser);
         else

@@ -1,9 +1,14 @@
 import type { AxiosError, AxiosInstance, AxiosResponse } from "axios";
 import axios from 'axios';
+import { stringify } from "flatted";
 
 enum ContentType {
     json = "application/json;charset=UTF-8",
     params = "application/x-www-form-urlencoded",
+}
+type Result = {
+    data: URLSearchParams,
+    status: number
 }
 
 abstract class AbstractAPI {
@@ -27,11 +32,10 @@ abstract class AbstractAPI {
         else
             return new URLSearchParams(data);
     }
-    protected handleResponse(response: AxiosResponse): string {
-        return response.data;
-    }
-    protected handleResponseStatus<T>(response: AxiosResponse<T>): number {
-        return response.status;
+    protected handleResponse(response: AxiosResponse): Result {
+        const data = new URLSearchParams(response.data);
+        const status = response.status;
+        return {data, status};
     }
     protected isAxiosError(value: any): value is AxiosError {
         return typeof value?.response === 'object';

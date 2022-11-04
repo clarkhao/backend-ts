@@ -14,9 +14,9 @@ class GithubAPI extends AbstractAPI {
     public fetchTokenFromGithub() {
         return this.http.post(this.baseURL.concat(config.get('github.token_path')), 
             this.paramsSerialized({
-                client_id: this.client_id,
-                client_secret: this.client_secret,
-                code: this.code
+                'client_id': this.client_id.toString(),
+                'client_secret': this.client_secret.toString(),
+                'code': this.code.toString()
             }))
             .then(this.handleResponse.bind(this))
             .catch(this.handleError.bind(this));
