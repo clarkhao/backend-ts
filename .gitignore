@@ -110,6 +110,7 @@ Dockerfile
 fly.toml
 
 #prisma
+prisma/
 .prisma
 
 #
