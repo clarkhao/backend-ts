@@ -113,5 +113,5 @@ fly.toml
 .prisma
 
 #
-doc.yml
-doc.yaml
+apidoc.yml
+apidoc.yaml
