@@ -21,7 +21,7 @@ class PGConnect {
         }
         this.pool = new Pool(this.credentials);
     }
-    public dbConnect(text: string, values?: unknown[]) {
+    public connect(text: string, values?: unknown[]) {
         return this.pool.connect().then(client => {
             return client.query(text, values).then(res => {
                 client.release();
@@ -40,5 +40,5 @@ class PGConnect {
         })
     }
 }
-
-export {PGConnect};
+const db = new PGConnect(process.env[config.get('db.db_graph.name')] || '');
+export {db};
