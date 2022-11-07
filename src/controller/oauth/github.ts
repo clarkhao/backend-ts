@@ -25,7 +25,7 @@ const githubOauthCallback: RequestHandler = async (req, res, next) => {
         return err;
     })
     if(typeof result === 'string') {
-        res.status(200).json({code:200,message:'OK'});
+        res.status(200).json({message:'OK'});
     } else if(result instanceof Error) {
         res.status(400).json({message: 'failed to login'});
     }
