@@ -1,6 +1,5 @@
 import type { AxiosError, AxiosInstance, AxiosResponse } from "axios";
 import axios from 'axios';
-import { stringify } from "flatted";
 
 enum ContentType {
     json = "application/json;charset=UTF-8",
