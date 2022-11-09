@@ -2,7 +2,7 @@ import { RequestHandler } from "express";
 import {getCodeFromGithub,
         getTokenFromGithub,
         getUserInfoWithToken,
-        saveInfoInPG} from '../../service';
+        saveGithubUserInfo} from '../../service';
 
 const githubOauthCallback: RequestHandler = async (req, res, next) => {
     const result = await getCodeFromGithub(req.query as Record<string,string>)
@@ -14,7 +14,7 @@ const githubOauthCallback: RequestHandler = async (req, res, next) => {
         return getUserInfoWithToken(token);
     }).then(info => {
         console.log(`info: ${info}`);
-        return saveInfoInPG(info);
+        return saveGithubUserInfo(info);
     }).then(query => {
         console.log(`query: ${query}`);
         return query;

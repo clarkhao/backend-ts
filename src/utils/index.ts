@@ -1,2 +1,2 @@
 export {GithubAPI} from './request/githubRequest';
-export {db} from './pgconnect/pgConnect';
+export {db,PGConnect} from './pgconnect/pgConnect';
