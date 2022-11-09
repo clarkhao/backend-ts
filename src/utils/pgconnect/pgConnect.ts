@@ -1,5 +1,6 @@
 import { Pool } from "pg";
 const config = require('config');
+require('dotenv').config();
 
 type Credentials = {
     user: string,
@@ -21,18 +22,18 @@ class PGConnect {
         }
         this.pool = new Pool(this.credentials);
     }
-    public connect(text: string, values?: unknown[]) {
+    public connect<T>(text: string, values?: unknown[]) {
         return this.pool.connect().then(client => {
             return client.query(text, values).then(res => {
                 client.release();
-                if(res.command === 'insert' || 'update') {
+                if(res.command === 'INSERT' || res.command === 'UPDATE') {
                     if(res.rowCount > 0)
                         return true;
                     else 
                         return false;
                 } else {
-                    return res.rows as string[];
-                }            
+                    return res.rows as T[];
+                } 
             }).catch(err => {
                 client.release();
                 throw new Error(err.stack);
@@ -41,4 +42,4 @@ class PGConnect {
     }
 }
 const db = new PGConnect(process.env[config.get('db.db_graph.name')] || '');
-export {db};
+export {db, PGConnect};

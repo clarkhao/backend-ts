@@ -4,4 +4,6 @@ export {
     getUserInfoWithToken,
 } from './oauth/githubOauth';
 
-export {saveInfoInPG} from './oauth/infoSavedPG';
+export {
+    saveGithubUserInfo,
+    readAllGithubUser} from './oauth/infoSavedPG';
