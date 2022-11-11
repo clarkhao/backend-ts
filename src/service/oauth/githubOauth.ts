@@ -1,5 +1,5 @@
 import {GithubAPI} from '../../utils';
-import { GithubUser } from '../../model';
+import { Github } from '../../model';
 
 //get code from github after customer logged in github with oauth
 const getCodeFromGithub = (query: Record<string,string>) => {
@@ -29,7 +29,7 @@ const getUserInfoWithToken = (token: string) => {
     return githubAPI.fetchUserInfoWithToken(token).then(info => {
         const userInfo = new URLSearchParams(info.data);
         if(userInfo.get('login'))
-            return Promise.resolve({id:0,name:userInfo.get('login') || '',githubId: parseInt(userInfo.get('id') || ''), githubRepos: parseInt(userInfo.get('public_repos') || '')} as GithubUser);
+            return Promise.resolve({id:0,name:userInfo.get('login') || '',githubId: parseInt(userInfo.get('id') || ''), githubRepos: parseInt(userInfo.get('public_repos') || '')} as Github);
         else
             return Promise.reject(new Error('failed to fetch user info from github with token'));
     })

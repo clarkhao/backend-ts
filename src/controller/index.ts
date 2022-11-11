@@ -1,1 +1,1 @@
-export { githubOauthCallback } from './oauth/github';
+export { githubOauthCallback,sendOauthToken } from './oauth/github';

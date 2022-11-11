@@ -1,1 +1,1 @@
-export {githubOauth} from './githubOauth';
+export {githubOauth} from './auth/githubOauth';

@@ -2,7 +2,8 @@ import { RequestHandler } from "express";
 import {getCodeFromGithub,
         getTokenFromGithub,
         getUserInfoWithToken,
-        saveGithubUserInfo} from '../../service';
+        saveGithubUserInfo,
+        sendToken} from '../../service';
 
 const githubOauthCallback: RequestHandler = async (req, res, next) => {
     const result = await getCodeFromGithub(req.query as Record<string,string>)
@@ -24,11 +25,18 @@ const githubOauthCallback: RequestHandler = async (req, res, next) => {
         next(err);
         return err;
     })
-    if(typeof result === 'string') {
-        res.status(200).json({message:'OK'});
+    if(!(result instanceof Error)) {
+        res.locals.id = result;
+        next();
     } else if(result instanceof Error) {
         res.status(400).json({message: 'failed to login'});
     }
 }
 
-export {githubOauthCallback};
+const sendOauthToken: RequestHandler = async (req, res, next) => {
+    const token = await sendToken(res.locals.id);
+    res.cookie('token', token, { expires: new Date(Date.now() + 120000), httpOnly: true, secure: true, sameSite: 'none' })
+    .sendStatus(200);
+}
+
+export {githubOauthCallback,sendOauthToken};

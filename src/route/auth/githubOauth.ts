@@ -1,5 +1,5 @@
 import express from 'express';
-import { githubOauthCallback } from '../controller';
+import { githubOauthCallback,sendOauthToken } from '../../controller';
 
 const githubOauth = express.Router();
 /**
@@ -11,6 +11,6 @@ const githubOauth = express.Router();
  *       200:
  *         description: OK.
  */
-githubOauth.get('/auth/github/callback', githubOauthCallback)
+githubOauth.get('/auth/github/callback', githubOauthCallback, sendOauthToken);
 
 export {githubOauth};
