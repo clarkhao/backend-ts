@@ -22,11 +22,11 @@ class PGConnect {
         }
         this.pool = new Pool(this.credentials);
     }
-    public connect<T>(text: string, values?: unknown[]) {
+    public connect<T>(text: string, values?: unknown[], option: boolean=true) {
         return this.pool.connect().then(client => {
             return client.query(text, values).then(res => {
                 client.release();
-                if(res.command === 'INSERT' || res.command === 'UPDATE') {
+                if((res.command === 'INSERT' || res.command === 'UPDATE')&&option) {
                     if(res.rowCount > 0)
                         return true;
                     else 

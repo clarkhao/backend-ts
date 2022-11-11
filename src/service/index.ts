@@ -7,3 +7,5 @@ export {
 export {
     saveGithubUserInfo,
     readAllGithubUser} from './oauth/infoSavedPG';
+
+export {sendToken} from './oauth/oauthToken';

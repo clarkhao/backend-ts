@@ -22,5 +22,8 @@
                 }
             }
         }
+    },
+    "mailer": {
+        "port": "MAIL_PORT"
     }
 }
