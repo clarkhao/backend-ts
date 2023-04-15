@@ -4,7 +4,8 @@
         "port": "PORT"
     },
     "frontend": {
-        "home_page": "http://192.168.3.55:3000"
+        "home_page": "http://192.168.3.55:3000",
+        "word": "WORD"
     },
     "db": {
         "host": "DB_HOST_DEV",

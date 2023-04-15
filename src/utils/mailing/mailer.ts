@@ -1,35 +1,40 @@
 import nodemailer from 'nodemailer';
+//Mail is important for Type importing here. Don't delete this row.
+import Mail from "nodemailer/lib/mailer";
+
+type MailResponse = {
+    accepted: Array<string>,
+    rejected: Array<unknown>,
+    envelopeTime: number,
+    messageTime: number,
+    messageSize: number,
+    response: string,
+    envelope: {from: string, to: string},
+    messageId: string
+}
 
 class Mailer {
-    private static instance: Mailer;
     private mailer: nodemailer.Transporter;
-    private  constructor() {
+    constructor() {
         this.mailer = nodemailer.createTransport({
-            host: "smtp.ethereal.email",
-            port: 465,
-            secure: true, // true for 465, false for other ports
+            service: 'qq',
+            port: 465, // SMTP 端口
+            secure: true, 
             auth: {
-              user: 'clark123', // generated ethereal user
-              pass: '123456', // generated ethereal password
-            },
-          })
+                user: '1134570412@qq.com',
+                pass: 'vlhbujqeunncggie', //qq邮箱给予的授权码
+            }
+          });
     }
-    static getInstance() {
-        if(!Mailer.instance) {
-            Mailer.instance = new Mailer();
-        }
-    }
-    async sendMail(to:string, content:string) {
+    sendMail(to:string, subject:string, content:string): Promise<MailResponse> {
         return this.mailer.sendMail({
-            from: 'clark',
+            from: '"Clark" <1134570412@qq.com>',
             to: to,
-            subject: 'hello',
-            text: 'hello world',
+            subject: subject,
+            text: '无需回复',
             html: content
         })
     }
 }
 
-const mailer = Mailer.getInstance();
-
-export {mailer, Mailer};
+export {Mailer,MailResponse};

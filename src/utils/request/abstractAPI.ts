@@ -5,7 +5,7 @@ enum ContentType {
     json = "application/json;charset=UTF-8",
     params = "application/x-www-form-urlencoded",
 }
-type Result = {
+type AxiosResult = {
     data: URLSearchParams,
     status: number
 }
@@ -31,7 +31,7 @@ abstract class AbstractAPI {
         else
             return new URLSearchParams(data);
     }
-    protected handleResponse(response: AxiosResponse): Result {
+    protected handleResponse(response: AxiosResponse): AxiosResult {
         const data = new URLSearchParams(response.data);
         const status = response.status;
         return {data, status};

@@ -1,13 +1,17 @@
-import {Authorization,ID,Role} from '../../model';
+import {Authorization,ID,Role,TokenType} from '../../model';
 import {db} from '../../utils';
 
 //send token to oauth users
-const sendToken = async (id: ID) => {
+const sendToken = (id: ID) => {
     console.log(id);
     const auth = new Authorization(id.id, db);
     auth.setRole(Role.User);
-    await auth.createToken();
-    return auth.generateToken('120s');
+    return auth.createToken().then(res => {
+        if(typeof res === 'boolean' && res)
+            return auth.generateToken('120s', 'API');
+        else
+            return Promise.reject(new Error('token generating errors'));
+    });
 }
 
 export {sendToken};

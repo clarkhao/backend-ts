@@ -9,6 +9,8 @@
         }
     },
     "tokens": {
-        "key": "JWT_KEY"
+        "key": "JWT_KEY",
+        "resend_key": "JWT_RESEND_KEY",
+        "api_key": "SECRET_PUBLIC_KEY"
     }
 }
