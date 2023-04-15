@@ -1,6 +1,7 @@
 import express from 'express';
 import swaggerUi from "swagger-ui-express";
 import swaggerJsdoc from "swagger-jsdoc";
+const config = require('config');
 
 const routerApiDoc = express.Router();
 
@@ -14,12 +15,12 @@ const options = {
         },
         servers: [
             {
-              url: 'http://localhost:8080',
+              url: config.get('server.host').concat(":").concat(process.env[config.get('server.port')]),
               description: 'Development server',
             },
         ],
     },
-    apis: [`./src/route/*.ts`, `./src/*.ts`],
+    apis: [`./src/route/*/*.ts`, `./src/*.ts`],
 };
 
 const openapiSpecification = swaggerJsdoc(options);

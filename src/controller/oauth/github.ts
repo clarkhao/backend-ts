@@ -22,21 +22,24 @@ const githubOauthCallback: RequestHandler = async (req, res, next) => {
     })
     .catch((err:Error) => {
         console.log(`error: ${err}`);
-        next(err);
-        return err;
+        res.status(400).json({message: 'failed to login with github account, please try again.'});
     })
-    if(!(result instanceof Error)) {
+    if(result) {
         res.locals.id = result;
         next();
-    } else if(result instanceof Error) {
-        res.status(400).json({message: 'failed to login'});
     }
 }
 
 const sendOauthToken: RequestHandler = async (req, res, next) => {
-    const token = await sendToken(res.locals.id);
-    res.cookie('token', token, { expires: new Date(Date.now() + 120000), httpOnly: true, secure: true, sameSite: 'none' })
-    .sendStatus(200);
+    sendToken(res.locals.id).then(token => {
+        console.log(token);
+        res.cookie('token', token, { expires: new Date(Date.now() + 120000), httpOnly: true, secure: true, sameSite: 'none' })
+            .sendStatus(200);
+    }).catch((err:Error) => {
+        console.log(`error: ${err}`);
+        next(err);
+        return err;
+    })
 }
 
 export {githubOauthCallback,sendOauthToken};

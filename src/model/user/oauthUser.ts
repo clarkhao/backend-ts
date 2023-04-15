@@ -3,11 +3,10 @@ import { MainUser } from './user';
 const config = require('config');
 import {PGConnect} from '../../utils';
 
-interface OauthUserType<T> {
+interface OauthUserType<T,U> {
     createUser(): Promise<T[]|boolean>,
-    readUser(): Promise<Github[]>
+    readAllUsers(): Promise<U[]>
 }
-
 type Github = Omit<User & GithubUser, 'githubUserId' | 'email'>;
 type ID = {id: number};
 
@@ -41,7 +40,7 @@ class OauthUser extends MainUser<ID> implements GithubUser {
             return res as ID[];
         });
     }
-    public readUser() {
+    public readAllUsers() {
         return this.db.connect<Github>(`
             select *
             from auth.github_user as g, auth.user as u
